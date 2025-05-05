@@ -9,7 +9,7 @@ import numpy as np
 st.set_page_config(layout="wide")
 
 # Function to load the .csv data of differeing encodings
-st.cache_data # caching so loading only occurs once. Note that cache persists for duraction of session unless manually cleared
+@st.cache_data # caching so loading only occurs once. Note that cache persists for duraction of session unless manually cleared
 def loaddata(value):
     uploaded_file = st.file_uploader("Choose a file", key=value)
 
@@ -54,7 +54,7 @@ def selectvariables(inputdata):
         return []
 
 # For each variable which is selected as a filter, allow user to select wheter value, contains or range for each
-st.cache_data
+@st.cache_data
 def filterdata(filters, data):
     for i in filters:
         value_or_range_or_contains = st.radio("Value, Range, or Contains?", ("Value", "Range", "Contains"), horizontal=True, key=i)
