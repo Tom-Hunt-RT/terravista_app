@@ -9,36 +9,31 @@ import numpy as np
 st.set_page_config(layout="wide")
 
 # Function to load the .csv data of differeing encodings
-uploaded_file = st.file_uploader("Choose a file", key="my_file_uploader")
-@st.cache_data
-def loaddata(file):
-    if file is not None:
-        file.seek(0)
+@st.cache_data # caching so loading only occurs once. Note that cache persists for duraction of session unless manually cleared
+def loaddata(value):
+    uploaded_file = st.file_uploader("Choose a file", key=value)
+
+    if uploaded_file is not None:
+        uploaded_file.seek(0) # Set the seek function back to start after each attempt, otherwise incrementally increases
+        
         try:
-            df = pd.read_csv(file, encoding='utf-8')
+            file = pd.read_csv(uploaded_file, encoding='utf-8')
         except UnicodeDecodeError:
-            file.seek(0)
+            uploaded_file.seek(0)
             try:
-                df = pd.read_csv(file, encoding='latin1')
+                file = pd.read_csv(uploaded_file, encoding='latin1')
             except UnicodeDecodeError:
-                file.seek(0)
+                uploaded_file.seek(0)
                 try:
-                    df = pd.read_csv(file, encoding='iso-8859-1')
+                    file = pd.read_csv(uploaded_file, encoding='iso-8859-1')
                 except UnicodeDecodeError:
-                    return None
-        return df
+                    st.error("Unable to read the file with UTF-8, Latin-1, or ISO-8859-1 encoding. Please check the file encoding.")
+                    return pd.DataFrame()
+        return file
     else:
-        return None
-
-if uploaded_file is not None:
-    data = loaddata(uploaded_file)
-    if data is None:
-        st.error("Unable to read the file with UTF-8, Latin-1, or ISO-8859-1 encoding.")
-    else:
-        st.dataframe(data)
-else:
-    st.warning("Please upload a file.")
-
+        st.warning("Please upload a file.")
+        return pd.DataFrame()
+        
 # Creating a list of the column headers for use as variables to filter on
 def createvariables(inputdata):
     if not inputdata.empty:
