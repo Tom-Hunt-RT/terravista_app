@@ -10,9 +10,7 @@ st.set_page_config(layout="wide")
 
 # Function to load the .csv data of differeing encodings
 @st.cache_data # caching so loading only occurs once. Note that cache persists for duraction of session unless manually cleared
-def loaddata(value):
-    uploaded_file = st.file_uploader("Choose a file", key=value)
-
+def loaddata(uploaded_file):
     if uploaded_file is not None:
         uploaded_file.seek(0) # Set the seek function back to start after each attempt, otherwise incrementally increases
         
@@ -31,7 +29,7 @@ def loaddata(value):
                     return pd.DataFrame()
         return file
     else:
-        st.warning("Please upload a file.")
+        print("Please upload a file.")
         return pd.DataFrame()
         
 # Creating a list of the column headers for use as variables to filter on
@@ -558,7 +556,8 @@ def main():
     with st.sidebar:
         st.title("TerraVista 🌋")
         st.write("### Upload Data")
-        drillholedata = loaddata(value="drillholedata")
+        drillholedata = st.file_uploader("Upload your drillhole data file (CSV)", type=["csv"])
+        drillholedata = loaddata(uploaded_file="drillholedata")
         if not drillholedata.empty:
             holeid_col = st.selectbox("Select your data's 'Drillhole ID' column", options=drillholedata.columns)
             from_col = st.selectbox("Select you data's 'From' column", options=drillholedata.columns)
