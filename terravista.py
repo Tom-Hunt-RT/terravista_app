@@ -556,8 +556,8 @@ def main():
     with st.sidebar:
         st.title("TerraVista 🌋")
         st.write("### Upload Data")
-        drillholedata = st.file_uploader("Upload your drillhole data file (CSV)", type=["csv"])
-        drillholedata = loaddata(uploaded_file="drillholedata")
+        uploaded_file = st.file_uploader("Upload your drillhole data file (CSV)", type=["csv"])
+        drillholedata = loaddata(uploaded_file)
         if not drillholedata.empty:
             holeid_col = st.selectbox("Select your data's 'Drillhole ID' column", options=drillholedata.columns)
             from_col = st.selectbox("Select you data's 'From' column", options=drillholedata.columns)
