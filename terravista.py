@@ -396,7 +396,7 @@ def boxplot(data):
     userboxplot = px.box(data, x=x_variable, y=y_variable, title=f"Box plot of {x_variable} vs {y_variable}", color=colour_selection)
     st.plotly_chart(userboxplot, key="userboxplot")
 
-# Plot the drillhole collars in 3D space
+# Plot the drillhole traces in 3D space
 def threedplot(data):
     xcoordinate = st.selectbox("Select X Coordinate", options=data.columns, key="x_coordinate_3d")
     ycoordinate = st.selectbox("Select Y Coordinate", options=data.columns, key="y_coordinate_3d")
@@ -505,9 +505,13 @@ def plot_box_plots_by_group(data, group_combinations, numeric_column, user_value
 # Function to merge two datasets based on overlapping intervals
 def merge_on_overlap():
     st.write("### Upload File 1")
-    df1 = loaddata(value="file1")
+    file1 = st.file_uploader("Upload CSV File 1", type="csv", key="file1")
     st.write("### Upload File 2")
-    df2 = loaddata(value="file2")
+    file2 = st.file_uploader("Upload CSV File 2", type="csv", key="file2")
+
+    if file1 is not None and file2 is not None:
+        df1 = loaddata(file1)
+        df2 = loaddata(file2)
 
     holeid_col_file1 = st.selectbox("Select 'holeid' column for File 1", options=df1.columns)
     holeid_col_file2 = st.selectbox("Select 'holeid' column for File 2", options=df2.columns)
