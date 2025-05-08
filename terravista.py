@@ -581,7 +581,7 @@ def main():
             user_filtered_data = pd.DataFrame()
     
     if not selectedvariables:
-        st.warning("Please upload a file and select at least one variable to filter on. If you want everything, select 'HoleID' (or equivalent), then 'Select All'.")
+        st.warning("Please upload a file and select at least one variable to filter on. If you want everything, select 'HoleID' (or equivalent), then 'Select All'. The purpose of filtering prior to displaying data and/or creating plots is that some datasets are enormous; and if not wishing to view everything - this saves you a lot of time!")
     else:
         tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9 = st.tabs(["Downhole Plot", "Interval Variability Analysis", "Scatter Plot", "Box Plot", "3D Plot", "Sample Selection Assistant", "Weighted Average Calculator", "Distribution Analysis", "Merge Data"])
         
