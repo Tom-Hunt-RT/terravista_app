@@ -306,24 +306,6 @@ def sampleselectionassistant(data, holeid_col, from_col, to_col):
             st.write("### Proposed Samples")
             st.write(valid_composites)
 
-            additional_composites = []
-
-            for _, row in valid_composites.iterrows():
-                holeid = row['HoleID']
-                from_val = row['From']
-                to_val = row['To']
-
-                weighted_averages = calculate_weighted_averages(data, holeid_col, from_col, to_col, holeid, from_val, to_val, additional_parameter_cols)
-                
-                additional_composites.append(weighted_averages)
-
-            additional_composites_df = pd.DataFrame(additional_composites)
-
-            result_df = pd.merge(valid_composites, additional_composites_df, on=['HoleID', 'From', 'To'], how='left')
-
-            st.write("### Proposed Samples with Additional Weighted Averages")
-            st.write(result_df)
-
         matching_intervals = []
 
         for _, composite in valid_composites.iterrows():
