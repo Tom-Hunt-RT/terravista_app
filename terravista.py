@@ -233,9 +233,6 @@ def sampleselectionassistant(data, holeid_col, from_col, to_col):
             selected_drillholes = st.multiselect("Select Drillholes", options=data[holeid_col].unique())
 
         filtered_data = data[data[holeid_col].isin(selected_drillholes)]
-
-        # Add the multi-select for additional weighted averages
-        additional_parameter_cols = st.multiselect("Select additional weighted average parameters to display", options=data.columns)
         
         actionbutton = st.button("Go!", key="actionbutton")
 
